@@ -2,13 +2,12 @@
 // 依據 API 規格書 v3.0：使用 router 為 `/sendsms`，方法 POST，Content-Type 為 application/json
 
 import axios from 'axios';
-
 import dotenv from 'dotenv';
 dotenv.config();
 
 // 基本資訊
 const SiteUrl = 'https://e8dapi.e8d.tw';
-const custcode = 'e8d'; // 如果登入網址不同，請改為實際提供的 custcode
+const custcode = 'e8d'; //
 const uid = process.env.uid;
 const pwd = process.env.pwd;
 
