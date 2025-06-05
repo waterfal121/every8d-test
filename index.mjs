@@ -23,14 +23,45 @@ async function getToken() {
   );
   return res?.data?.data?.token || null;
 }
+// let tokenCache = {
+//   token: null,
+//   timestamp: null,
+// };
+// async function getToken() {
+//   const now = Date.now();
+//   const validFor = 10 * 60 * 1000; // 10 分鐘
+
+//   // 若 token 尚有效，直接使用快取
+//   if (tokenCache.token && now - tokenCache.timestamp < validFor) {
+//     console.log('get token from cache');
+//     return tokenCache.token;
+//   }
+
+//   // 否則重新取得
+//   const res = await axios.post(
+//     `${SiteUrl}/${custcode}/getoken`,
+//     { uid, pwd },
+//     { headers: { 'Content-Type': 'application/json' } }
+//   );
+//   const newToken = res?.data?.data?.token;
+//   console.log('get new token');
+
+//   // 更新快取
+//   if (newToken) {
+//     tokenCache.token = newToken;
+//     tokenCache.timestamp = now;
+//   }
+
+//   return newToken;
+// }
 
 async function sendSMS(token, sendtime = '') {
   const res = await axios.post(
     `${SiteUrl}/${custcode}/sendsms`,
     {
       uid,
-      pwd,
-      // token,
+      // pwd,
+      token,
       subject: '測試主旨',
       msg: '安安你好！這是 evry8d 測試簡訊 from Jeff Lai',
       mobiles: '+886975031751',
