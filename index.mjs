@@ -59,12 +59,12 @@ async function sendSMS(token, sendtime = '') {
   const res = await axios.post(
     `${SiteUrl}/${custcode}/sendsms`,
     {
-      uid,
+      uid, // must be set
       // pwd,
-      token,
+      token, // must be set
       subject: '測試主旨',
-      msg: '安安你好！這是 evry8d 測試簡訊 from Jeff Lai',
-      mobiles: '+886975031751',
+      msg: '安安你好！這是 evry8d 測試簡訊 from Jeff Lai', // must be set
+      mobiles: '+886975031751', // must be set
       sendtime,
       retrytime: '1440',
     },
