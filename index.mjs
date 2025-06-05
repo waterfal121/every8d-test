@@ -1,5 +1,4 @@
-// 測試發送 Every8d 一般簡訊
-// 依據 API 規格書 v3.0：使用 router 為 `/sendsms`，方法 POST，Content-Type 為 application/json
+// 測試發送 Every8d SMS 的功能
 
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -7,7 +6,7 @@ dotenv.config();
 
 // 基本資訊
 const SiteUrl = 'https://e8dapi.e8d.tw';
-const custcode = 'e8d'; //
+const custcode = 'e8d';
 const uid = process.env.uid;
 const pwd = process.env.pwd;
 
@@ -30,7 +29,8 @@ async function sendSMS(token, sendtime = '') {
     `${SiteUrl}/${custcode}/sendsms`,
     {
       uid,
-      token,
+      pwd,
+      // token,
       subject: '測試主旨',
       msg: '安安你好！這是 evry8d 測試簡訊 from Jeff Lai',
       mobiles: '+886975031751',
@@ -112,9 +112,11 @@ const param = process.argv[3];
 
 (async () => {
   try {
+    // 1. 取得 token
     const token = await getToken();
     if (!token) throw new Error('無法取得 token');
 
+    // 2. 發送簡訊或查詢狀態
     if (action === 'send') {
       const batchid = await sendSMS(token);
       console.log('Batch ID:', batchid);
