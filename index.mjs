@@ -46,6 +46,32 @@ async function sendSMS(token, sendtime = '') {
   return batchid;
 }
 
+async function sendParamSMS(token) {
+  const res = await axios.post(
+    `${SiteUrl}/${custcode}/sendparam_sms`,
+    {
+      uid,
+      token,
+      subject: '參數簡訊測試',
+      paramsContent: '親愛的%field1%您好，您的訂單編號為%field2%',
+      retrytime: '1440',
+      recipientdatalist: [
+        {
+          mobile: '+886975031751',
+          sendtime: '',
+          params: '阿儒,ABC123456',
+          mr: 'test-01',
+        },
+      ],
+    },
+    {
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+  console.log('參數簡訊發送結果：', res.data);
+  return res?.data?.data?.batchid;
+}
+
 async function cancelSchedule(token, batchid) {
   const res = await axios.post(
     `${SiteUrl}/${custcode}/cancelbooking`,
@@ -99,11 +125,16 @@ const param = process.argv[3];
       const scheduleTime = '20250529173000'; // yyyyMMddHHmmss
       const batchid = await sendSMS(token, scheduleTime);
       console.log('排程發送 batchid：', batchid);
+    } else if (action === 'param') {
+      const batchid = await sendParamSMS(token);
+      console.log('參數簡訊 batchid：', batchid);
     } else if (action === 'cancel') {
       if (!param) throw new Error('請提供要取消的 batchid');
       await cancelSchedule(token, param);
     } else {
-      console.log('請指定動作：send 或 status [batchid]');
+      console.log(
+        '請指定動作：send、status [batchid]、schedule、cancel [batchid]、param'
+      );
     }
   } catch (err) {
     console.error('執行時發生錯誤：', err.message);
