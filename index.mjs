@@ -114,8 +114,8 @@ async function getSMSStatus(token, batchid) {
 
 // CLI 執行區塊
 const action = process.argv[2];
-const sendtime = process.argv[3] || ''; // 預設為空字串，立即發送；給值則為排程發送，格式為 yyyyMMddHHmmss
-const bid = process.argv[4];
+// const sendtime = process.argv[3] || ''; // 預設為空字串，立即發送；給值則為排程發送，格式為 yyyyMMddHHmmss
+const bid = process.argv[3];
 
 (async () => {
   try {
